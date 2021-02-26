@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+
+  <body>
+    <script>
+      console.log('Vue 3 reactive API');
+
+      const { reactive, watchEffect } = Vue;
+
+      const state = reactive({
+        count: 0,
+      });
+
+      watchEffect(() => {
+        console.log('effect run ', state.count);
+      }); // 0
+
+      state.count++; // 1
+    </script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+
+  <body>
+    <div id="price">
+    </div>
+
+    <script>
+      console.log('Let us make variable to be reactive');
+
+      // let count = 1;
+      // let totalPrice = count * 100;
+
+      // console.log(totalPrice); // 100
+
+      // count = 2;
+      // console.log(totalPrice); // 100 --> 200
+
+      let activeEffect;
+
+      class Dep {
+        constructor(value) {
+          this._value = value;
+          this.subscribers = new Set();
+        }
+
+        get value() {
+          this.depend();
+          return this._value;
+        }
+
+        set value(value) {
+          this._value = value;
+          this.notify();
+        }
+
+        depend() {
+          if (activeEffect) {
+            this.subscribers.add(activeEffect);
+          }
+        }
+
+        notify() {
+          this.subscribers.forEach(effect => {
+            effect();
+          })
+        }
+      }
+
+      function watchEffect(effect) {
+        activeEffect = effect;
+        effect();
+        activeEffect = null;
+      }
+
+      const count = new Dep(1);
+
+      watchEffect(() => {
+        console.log('total price : ', count.value * 100);
+        document.querySelector('#price').textContent = count.value * 100;
+      }); // 100
+
+      // count.value = 2; // 200
+      // count.value = 10; // 200
+    </script>
+  </body>
+</html>

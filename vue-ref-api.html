@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+
+  <body>
+    <script>
+      console.log('Vue 3 reactive API');
+
+      const { ref, watchEffect } = Vue;
+
+
+      const count = ref(2);
+
+      watchEffect(() => {
+        console.log('total price ', (count.value * 100));
+      })
+
+      count.value = 4;
+      count.value = 5;
+    </script>
+  </body>
+</html>
